@@ -22,19 +22,18 @@ public class HallService {
     @Autowired
     private DSLContext dslContext;
 
-    public HallDTO saveHall(AddHallRequest request)
-    {
+    public HallDTO saveHall(AddHallRequest request) {
         boolean newRecord = false;
         HallRecord record = null;
         if (request.getId() != 0) {
             record = this.hallDAO.getHallById(request.getId());
         }
-        if (record == null)
-        {
-            record = (HallRecord)this.dslContext.newRecord(Tables.HALL);
+        if (record == null) {
+            record = (HallRecord) this.dslContext.newRecord(Tables.HALL);
             newRecord = true;
         }
         record.setName(request.getName());
+        record.setOrganisationId(request.getOrganisationId());
         record.setDescription(request.getDescription());
         if (newRecord) {
             record.store();
@@ -44,18 +43,15 @@ public class HallService {
         return null;
     }
 
-    public HallDTO getChampionshipById(int itemId)
-    {
+    public HallDTO getChampionshipById(int itemId) {
         return HallDTO.translate(this.hallDAO.getHallById(itemId));
     }
 
-    public List<HallDTO> getHalls()
-    {
-        return HallDTO.translateArray(this.hallDAO.getHalls());
+    public List<HallDTO> getHalls(int organisationId) {
+        return HallDTO.translateArray(this.hallDAO.getHalls(organisationId));
     }
 
-    public void deleteHall(int itemId)
-    {
+    public void deleteHall(int itemId) {
         this.hallDAO.deleteHall(itemId);
     }
 }

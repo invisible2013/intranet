@@ -97,7 +97,7 @@ public class LDAPService {
                 }
             }
             for (LDAPResponse lDapResponse : responses) {
-                savePersonalInfofromLDAP(lDapResponse, 1, this.ECONOMY_TREE_PARENT_ID);
+                savePersonalInfoFromLDAP(lDapResponse, 1, ECONOMY_TREE_PARENT_ID);
             }
             ctx.close();
             inactiveUsers(this.ECONOMY_TREE_PARENT_ID);
@@ -107,7 +107,7 @@ public class LDAPService {
         }
     }
 
-    public void savePersonalInfofromLDAP(LDAPResponse response, int structureId, int organisationId)
+    public void savePersonalInfoFromLDAP(LDAPResponse response, int structureId, int organisationId)
             throws Exception {
         try {
             PersonalRecord _personal = new PersonalRecord();
@@ -128,6 +128,44 @@ public class LDAPService {
         }
     }
 
+    public PersonalDTO ldapAuthorisation(String mail, String ldapPassword) throws Exception {
+        try {
+            String userName = mail.substring(0, mail.indexOf("@"));
+            String domain = mail.substring(mail.indexOf("@") + 1, mail.length());
+            Hashtable<String, String> env = new Hashtable();
+            String ldapServer = "";
+            String ldapUsername = "";
+            int organisationId = 1;
+            if (domain.equals("economy.ge")) {
+                ldapServer = "ldap://economy.ge:389";
+                ldapUsername = "economy\\" + userName;
+
+            } else if (domain.equals("enterprise.gov.ge") || domain.equals("enterprise.gov.loc")) {
+                ldapServer = "ldap://enterprise.gov.loc:389";
+                ldapUsername = "enterprise\\" + userName;
+                organisationId = 2;
+            } else {
+                throw new Exception("username or password incorrect");
+            }
+
+            env.put("java.naming.factory.initial", "com.sun.jndi.ldap.LdapCtxFactory");
+            env.put("java.naming.provider.url", ldapServer);
+            env.put("java.naming.security.authentication", "simple");
+            env.put("java.naming.security.principal", ldapUsername);
+            env.put("java.naming.security.credentials", ldapPassword);
+
+            DirContext ctx = new InitialLdapContext(env, null);
+            PersonalDTO p = personalService.getPersonalByMail(mail);
+            if (p == null) {
+                personalService.addBasePersonalByMail(mail, organisationId);
+            }
+            return personalService.getPersonalByMail(mail);
+        } catch (Exception ex) {
+            logger.error(ex);
+            throw new Exception("username or password incorrect");
+        }
+    }
+
     public PersonalDTO ldapAuth(String mail, String ldapPassword)
             throws Exception {
         try {
@@ -145,7 +183,7 @@ public class LDAPService {
             DirContext ctx = new InitialLdapContext(env, null);
             PersonalDTO p = this.personalService.getPersonalByMail(mail);
             if (p == null) {
-                this.personalService.addBasePersonalByMail(mail);
+                this.personalService.addBasePersonalByMail(mail, PersonalDTO.ORGANISATION_ECONOMY);
             }
             return this.personalService.getPersonalByMail(mail);
         } catch (Exception ex) {

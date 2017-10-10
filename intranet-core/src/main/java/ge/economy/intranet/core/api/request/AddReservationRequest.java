@@ -10,6 +10,7 @@ public class AddReservationRequest
     private int id;
     private int hallId;
     private int userId;
+    private int organisationId;
     private String name;
     private String description;
     @JsonDeserialize(using=JsonDateTimeDeserializeSupport.class)
@@ -85,5 +86,13 @@ public class AddReservationRequest
     public void setEndDate(Date endDate)
     {
         this.endDate = endDate;
+    }
+
+    public int getOrganisationId() {
+        return organisationId;
+    }
+
+    public void setOrganisationId(int organisationId) {
+        this.organisationId = organisationId;
     }
 }

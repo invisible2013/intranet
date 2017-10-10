@@ -28,7 +28,7 @@ public class SecurityIMPL
         String username = map.get("email").toString().toLowerCase();
         String password = map.get("password").toString();
 
-        PersonalDTO personal = ldapService.ldapAuth(username, password);
+        PersonalDTO personal = ldapService.ldapAuthorisation(username, password);
         if (personal == null) {
             return null;
         }

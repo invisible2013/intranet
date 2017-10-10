@@ -6,30 +6,30 @@ import ge.economy.intranet.core.api.request.AddReservationRequest;
 import ge.economy.intranet.core.dao.ReservationDAO;
 import ge.economy.intranet.database.database.Tables;
 import ge.economy.intranet.database.database.tables.records.ReservationRecord;
+
 import java.util.Date;
 import java.util.List;
+
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReservationService
-{
+public class ReservationService {
     @Autowired
     private ReservationDAO reservationDAO;
     @Autowired
     private DSLContext dslContext;
 
     public ReservationDTO saveReservation(AddReservationRequest request)
-            throws Exception
-    {
-        if(request.getStartDate() == null) {
+            throws Exception {
+        if (request.getStartDate() == null) {
             throw new Exception("დაწყების თარიღი არ არის გადმოცემული");
-        } else if(request.getEndDate() == null) {
+        } else if (request.getEndDate() == null) {
             throw new Exception("დასრულები თარიღი არ არის გადმოცემული");
-        } else if(request.getHallId() == 0) {
+        } else if (request.getHallId() == 0) {
             throw new Exception("შეხვედრის ოთახი არ არის მითითებული");
-        } else if(request.getName() == null) {
+        } else if (request.getName() == null) {
             throw new Exception("შეხვედრა არ არის მითითებული");
         }
         checkReservationDate(request.getStartDate(), request.getEndDate(), request.getHallId());
@@ -39,13 +39,13 @@ public class ReservationService
         if (request.getId() != 0) {
             record = this.reservationDAO.getReservationById(request.getId());
         }
-        if (record == null)
-        {
-            record = (ReservationRecord)this.dslContext.newRecord(Tables.RESERVATION);
+        if (record == null) {
+            record = (ReservationRecord) this.dslContext.newRecord(Tables.RESERVATION);
             newRecord = true;
         }
-        record.setHallId(Integer.valueOf(request.getHallId()));
-        record.setUserId(Integer.valueOf(request.getUserId()));
+        record.setHallId(request.getHallId());
+        record.setUserId(request.getUserId());
+        record.setOrganisationId(request.getOrganisationId());
         record.setDescription(request.getDescription());
         record.setName(request.getName());
         record.setStartDate(request.getStartDate());
@@ -59,8 +59,7 @@ public class ReservationService
     }
 
     private boolean checkReservationDate(Date startDate, Date endDate, int hallId)
-            throws Exception
-    {
+            throws Exception {
         if (startDate.compareTo(endDate) >= 0) {
             throw new Exception("შეხვედრის დაწყების თარიღი ნაკლები უნდა იყოს დასრულების თარიღზე");
         }
@@ -74,28 +73,23 @@ public class ReservationService
         return false;
     }
 
-    public ReservationDTO getReservationById(int itemId)
-    {
+    public ReservationDTO getReservationById(int itemId) {
         return ReservationDTO.translate(this.reservationDAO.getReservationById(itemId));
     }
 
-    public List<EventDTO> getReservations()
-    {
+    public List<EventDTO> getReservations(int organisationId) {
         return EventDTO.translateArray(this.reservationDAO.getReservations());
     }
 
-    public List<EventDTO> getReservationsByHall(int hallId)
-    {
+    public List<EventDTO> getReservationsByHall(int hallId) {
         return EventDTO.translateArray(this.reservationDAO.getReservationsByHall(hallId));
     }
 
-    public List<ReservationDTO> getReservationListByHall(int hallId)
-    {
+    public List<ReservationDTO> getReservationListByHall(int hallId) {
         return ReservationDTO.translateArray(this.reservationDAO.getReservationsByHall(hallId));
     }
 
-    public void deleteReservation(int itemId)
-    {
+    public void deleteReservation(int itemId) {
         this.reservationDAO.deleteReservation(itemId);
     }
 }

@@ -11,10 +11,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class HallDAO extends AbstractDAO {
-    public List<Record> getHalls() {
+    public List<Record> getHalls(int organisationId) {
         return dslContext.
                 select().
                 from(Tables.HALL).
+                where(Tables.HALL.ORGANISATION_ID.eq(organisationId)).
                 orderBy(Tables.HALL.ID.desc()).
                 fetch();
     }

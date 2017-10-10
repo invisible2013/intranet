@@ -2,26 +2,26 @@ package ge.economy.intranet.core.dao;
 
 import ge.economy.intranet.database.database.Tables;
 import ge.economy.intranet.database.database.tables.records.PersonalRecord;
+
 import java.util.List;
+
 import org.jooq.Record;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PersonalDAO extends AbstractDAO
-{
-    public List<Record> getPersonals()
-    {
+public class PersonalDAO extends AbstractDAO {
+    public List<Record> getPersonals(int organisationId) {
         return dslContext.
                 select().
                 from(Tables.PERSONAL).
                 join(Tables.GROUP).on(Tables.PERSONAL.GROUP_ID.eq(Tables.GROUP.ID)).
                 join(Tables.STATUS).on(Tables.PERSONAL.STATUS_ID.eq(Tables.STATUS.ID)).
+                where(Tables.PERSONAL.ORGANISATION_ID.eq(organisationId)).
                 orderBy(Tables.PERSONAL.ID.desc()).
                 fetch();
     }
 
-    public List<Record> getGroups()
-    {
+    public List<Record> getGroups() {
         return dslContext.
                 select().
                 from(Tables.GROUP).
@@ -29,8 +29,7 @@ public class PersonalDAO extends AbstractDAO
                 fetch();
     }
 
-    public List<Record> getInactivePersonal(List<String> mails, int organisationId)
-    {
+    public List<Record> getInactivePersonal(List<String> mails, int organisationId) {
         return dslContext.
                 select().
                 from(Tables.PERSONAL).
@@ -39,13 +38,11 @@ public class PersonalDAO extends AbstractDAO
                 fetch();
     }
 
-    public PersonalRecord getPersonalById(int id)
-    {
-        return (PersonalRecord)dslContext.fetchOne(Tables.PERSONAL, Tables.PERSONAL.ID.eq(id));
+    public PersonalRecord getPersonalById(int id) {
+        return (PersonalRecord) dslContext.fetchOne(Tables.PERSONAL, Tables.PERSONAL.ID.eq(id));
     }
 
-    public Record getPersonalByMail(String mail)
-    {
+    public Record getPersonalByMail(String mail) {
         return dslContext.
                 select().
                 from(Tables.PERSONAL).
@@ -55,8 +52,7 @@ public class PersonalDAO extends AbstractDAO
                 fetchOne();
     }
 
-    public void deletePersonal(int itemId)
-    {
+    public void deletePersonal(int itemId) {
         dslContext.deleteFrom(Tables.PERSONAL).where(Tables.PERSONAL.ID.eq(itemId)).execute();
     }
 }

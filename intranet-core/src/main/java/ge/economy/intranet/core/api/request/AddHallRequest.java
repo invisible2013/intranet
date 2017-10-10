@@ -1,38 +1,40 @@
 package ge.economy.intranet.core.api.request;
 
-public class AddHallRequest
-{
+public class AddHallRequest {
     private int id;
     private String name;
     private String description;
+    private int organisationId;
 
-    public int getId()
-    {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(int id)
-    {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return this.description;
     }
 
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getOrganisationId() {
+        return organisationId;
+    }
+
+    public void setOrganisationId(int organisationId) {
+        this.organisationId = organisationId;
     }
 }
