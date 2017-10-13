@@ -75,8 +75,8 @@
             <br/>
             <br/>
 
-            <div class="row">
-                <div class="list-group" ng-controller="menuCtrl">
+            <div class="row" ng-controller="menuCtrl">
+                <div class="list-group" >
                     <a href="home" class="list-group-item"><span class="glyphicon glyphicon-registration-mark"></span> დაჯავშნა</a>
                     <a href="halls" ng-show="currentUser.groupId==2" class="list-group-item"><span class="glyphicon glyphicon-barcode"></span> დარბაზები</a>
                     <a href="users" ng-show="currentUser.groupId==2" class="list-group-item"><span class="glyphicon glyphicon-user"></span> მომხმარებლები</a>
@@ -84,9 +84,16 @@
                 <br/>
                 <br/>
                 <div class="col-md-12">
-                    გთხოვთ დამატებითი შეკითხვების არსებობის შემთხვევაში დაუკავშირდეთ<br/>
-                    <h5>ნინო მეტრეველს</h5>
-                    <h5>ტელ: 1060</h5>
+                    <div ng-show="currentUser.organisationId==2">
+                        გთხოვთ დამატებითი შეკითხვების არსებობის შემთხვევაში დაუკავშირდეთ<br/>
+                        <h5>სოფო გელაშვილი</h5>
+                        <h5>ტელ: 1670</h5>
+                    </div>
+                    <div ng-show="currentUser.organisationId==1">
+                        გთხოვთ დამატებითი შეკითხვების არსებობის შემთხვევაში დაუკავშირდეთ<br/>
+                        <h5>ნინო მეტრეველს</h5>
+                        <h5>ტელ: 1060</h5>
+                    </div>
                 </div>
             </div>
         </div>

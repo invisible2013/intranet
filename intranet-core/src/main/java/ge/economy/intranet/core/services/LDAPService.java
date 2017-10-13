@@ -140,7 +140,7 @@ public class LDAPService {
                 ldapServer = "ldap://economy.ge:389";
                 ldapUsername = "economy\\" + userName;
 
-            } else if (domain.equals("enterprise.gov.ge") || domain.equals("enterprise.gov.loc")) {
+            } else if (domain.equals("enterprise.gov.loc")) {
                 ldapServer = "ldap://enterprise.gov.loc:389";
                 ldapUsername = "enterprise\\" + userName;
                 organisationId = 2;
