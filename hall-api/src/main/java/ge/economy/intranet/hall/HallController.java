@@ -28,6 +28,7 @@ public class HallController {
         if (u != null) {
             personal = (PersonalDTO) u.getUserData();
             request.setOrganisationId(personal.getOrganisationId());
+            request.setActive(true);
         }
         return Response.withData(this.hallService.saveHall(request));
     }

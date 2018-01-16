@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Hall extends TableImpl<HallRecord> {
 
-	private static final long serialVersionUID = 2073909365;
+	private static final long serialVersionUID = -980572665;
 
 	/**
 	 * The reference instance of <code>public.hall</code>
@@ -68,6 +68,11 @@ public class Hall extends TableImpl<HallRecord> {
 	 * The column <code>public.hall.organisation_id</code>.
 	 */
 	public final TableField<HallRecord, Integer> ORGANISATION_ID = createField("organisation_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>public.hall.is_active</code>.
+	 */
+	public final TableField<HallRecord, Boolean> IS_ACTIVE = createField("is_active", org.jooq.impl.SQLDataType.BOOLEAN, this, "");
 
 	/**
 	 * Create a <code>public.hall</code> table reference

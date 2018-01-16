@@ -5,6 +5,7 @@ public class AddHallRequest {
     private String name;
     private String description;
     private int organisationId;
+    private boolean isActive;
 
     public int getId() {
         return this.id;
@@ -36,5 +37,13 @@ public class AddHallRequest {
 
     public void setOrganisationId(int organisationId) {
         this.organisationId = organisationId;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

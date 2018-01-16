@@ -136,10 +136,11 @@ public class LDAPService {
             String ldapServer = "";
             String ldapUsername = "";
             int organisationId = 1;
-            if (domain.equals("economy.ge")) {
+            boolean isEconomy = false;
+            if (domain.equals("economy.ge") || domain.equals("moesd.gov.ge")) {
                 ldapServer = "ldap://economy.ge:389";
                 ldapUsername = "economy\\" + userName;
-
+                isEconomy = true;
             } else if (domain.equals("enterprise.gov.loc")) {
                 ldapServer = "ldap://enterprise.gov.loc:389";
                 ldapUsername = "enterprise\\" + userName;
@@ -155,11 +156,22 @@ public class LDAPService {
             env.put("java.naming.security.credentials", ldapPassword);
 
             DirContext ctx = new InitialLdapContext(env, null);
+
             PersonalDTO p = personalService.getPersonalByMail(mail);
+            String personalEmail = mail;
+            if (p == null && isEconomy) {
+                if (domain.equals("economy.ge")) {
+                    p = personalService.getPersonalByMail(userName + "@moesd.gov.ge");
+                } else {
+                    p = personalService.getPersonalByMail(userName + "@economy.ge");
+                }
+            }
             if (p == null) {
                 personalService.addBasePersonalByMail(mail, organisationId);
+            } else {
+                personalEmail = p.getMail();
             }
-            return personalService.getPersonalByMail(mail);
+            return personalService.getPersonalByMail(personalEmail);
         } catch (Exception ex) {
             logger.error(ex);
             throw new Exception("username or password incorrect");

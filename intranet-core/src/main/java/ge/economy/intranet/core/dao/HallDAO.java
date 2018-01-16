@@ -16,7 +16,8 @@ public class HallDAO extends AbstractDAO {
                 select().
                 from(Tables.HALL).
                 where(Tables.HALL.ORGANISATION_ID.eq(organisationId)).
-                orderBy(Tables.HALL.ID.desc()).
+                and(Tables.HALL.IS_ACTIVE.eq(true)).
+                orderBy(Tables.HALL.ID).
                 fetch();
     }
 

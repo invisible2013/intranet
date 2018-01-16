@@ -35,6 +35,7 @@ public class HallService {
         record.setName(request.getName());
         record.setOrganisationId(request.getOrganisationId());
         record.setDescription(request.getDescription());
+        record.setIsActive(request.isActive());
         if (newRecord) {
             record.store();
         } else {
