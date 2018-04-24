@@ -28,7 +28,7 @@ public class HallController {
         if (u != null) {
             personal = (PersonalDTO) u.getUserData();
             request.setOrganisationId(personal.getOrganisationId());
-            request.setActive(true);
+            request.setActive(request.isActive());
         }
         return Response.withData(this.hallService.saveHall(request));
     }
@@ -41,7 +41,18 @@ public class HallController {
         if (u != null) {
             personal = (PersonalDTO) u.getUserData();
         }
-        return Response.withData(this.hallService.getHalls(personal.getOrganisationId()));
+        return Response.withData(hallService.getHalls(personal.getOrganisationId(), false));
+    }
+
+    @ResponseBody
+    @RequestMapping({"/get-active-halls"})
+    public Response getActiveHalls(HttpSession httpSession) {
+        User u = (User) httpSession.getAttribute("current_user");
+        PersonalDTO personal = new PersonalDTO();
+        if (u != null) {
+            personal = (PersonalDTO) u.getUserData();
+        }
+        return Response.withData(hallService.getHalls(personal.getOrganisationId(), true));
     }
 
     @ResponseBody

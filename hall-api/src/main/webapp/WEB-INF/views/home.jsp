@@ -77,7 +77,7 @@
             ajaxCall($http, "reservation/get-reservations-by-hall?hallId=" + $scope.selectedHallId, null, getReservations);
         }
 
-        ajaxCall($http, "hall/get-halls", null, getHalls);
+        ajaxCall($http, "hall/get-active-halls", null, getHalls);
 
         function convertDate(date1) {
             if (date1) {

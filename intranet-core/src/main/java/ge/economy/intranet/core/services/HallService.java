@@ -48,8 +48,11 @@ public class HallService {
         return HallDTO.translate(this.hallDAO.getHallById(itemId));
     }
 
-    public List<HallDTO> getHalls(int organisationId) {
-        return HallDTO.translateArray(this.hallDAO.getHalls(organisationId));
+    public List<HallDTO> getHalls(int organisationId, boolean active) {
+        if (active)
+            return HallDTO.translateArray(hallDAO.getActiveHalls(organisationId));
+        else
+            return HallDTO.translateArray(hallDAO.getHalls(organisationId));
     }
 
     public void deleteHall(int itemId) {

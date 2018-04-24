@@ -11,6 +11,7 @@ public class HallDTO
     private Integer id;
     private String name;
     private String description;
+    private Boolean isActive;
 
     public static HallDTO translate(Record record)
     {
@@ -18,6 +19,7 @@ public class HallDTO
         dto.setId((Integer)record.getValue(Tables.HALL.ID));
         dto.setName((String)record.getValue(Tables.HALL.NAME));
         dto.setDescription((String)record.getValue(Tables.HALL.DESCRIPTION));
+        dto.setActive((Boolean) record.getValue(Tables.HALL.IS_ACTIVE));
         return dto;
     }
 
@@ -58,5 +60,13 @@ public class HallDTO
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }
