@@ -86,7 +86,7 @@
                 <div class="col-md-12">
                     <div ng-show="currentUser.organisationId==2">
                         გთხოვთ დამატებითი შეკითხვების არსებობის შემთხვევაში დაუკავშირდეთ<br/>
-                        <h5>სოფო გელაშვილი</h5>
+                        <h5>დავით წაწიშვილს</h5>
                         <h5>ტელ: 1670</h5>
                     </div>
                     <div ng-show="currentUser.organisationId==1">
